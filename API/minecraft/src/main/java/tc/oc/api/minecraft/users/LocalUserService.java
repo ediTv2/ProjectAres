@@ -30,18 +30,23 @@ import tc.oc.api.users.UserSearchResponse;
 import tc.oc.api.users.UserService;
 import tc.oc.api.users.UserUpdateResponse;
 import tc.oc.commons.core.concurrent.FutureUtils;
-import tc.oc.minecraft.api.entity.OfflinePlayer;
 import tc.oc.minecraft.api.server.LocalServer;
+import tc.oc.minecraft.api.user.OfflinePlayer;
+import tc.oc.minecraft.api.user.OfflinePlayerFinder;
 
 @Singleton
 public class LocalUserService extends NullModelService<User, UserDoc.Partial> implements UserService {
 
     @Inject private LocalServer minecraftServer;
     @Inject private LocalSessionFactory sessionFactory;
+    @Inject private OfflinePlayerFinder offlinePlayerFinder;
 
     @Override
     public ListenableFuture<User> find(UserId userId) {
-        return Futures.immediateFuture(new LocalUserDocument(minecraftServer.getOfflinePlayer(UUID.fromString(userId.player_id()))));
+        return FutureUtils.mapSync(
+            offlinePlayerFinder.findOfflinePlayer(UUID.fromString(userId.player_id())),
+            LocalUserDocument::new
+        );
     }
 
     @Override

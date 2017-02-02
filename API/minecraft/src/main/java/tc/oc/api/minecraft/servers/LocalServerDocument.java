@@ -17,7 +17,7 @@ import tc.oc.api.docs.virtual.MapDoc;
 import tc.oc.api.docs.virtual.MatchDoc;
 import tc.oc.api.docs.virtual.ServerDoc;
 import tc.oc.api.minecraft.config.MinecraftApiConfiguration;
-import tc.oc.minecraft.api.entity.OfflinePlayer;
+import tc.oc.minecraft.api.user.OfflinePlayer;
 import tc.oc.minecraft.api.server.LocalServer;
 
 @Singleton
